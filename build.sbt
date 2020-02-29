@@ -25,7 +25,8 @@ val btVersion: String = Try(ConfigFactory.load.getString("version")) match {
 }
 
 val dependencies: Seq[ModuleID] = Seq(
-  "com.typesafe.play" %% "play" % "2.8.1"
+  "com.typesafe.play"      %% "play"               % "2.8.1",
+  "org.scalatestplus.play" %% "scalatestplus-play" % "5.0.0" % Test
 )
 
 lazy val library = Project(libraryName, file("."))

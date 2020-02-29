@@ -14,12 +14,6 @@
  * limitations under the License.
  */
 
-package com.cjwwdev.bouncer.models
-
-import play.api.libs.json.{Json, OWrites}
-
-case class HeaderError(header: String, error: String)
-
-object HeaderError {
-  implicit val writer: OWrites[HeaderError] = Json.writes[HeaderError]
-}
+addSbtPlugin("org.scalastyle"   %% "scalastyle-sbt-plugin" % "1.0.0")
+addSbtPlugin("com.typesafe.sbt"  % "sbt-native-packager"   % "1.3.4")
+addSbtPlugin("org.foundweekends" % "sbt-bintray"           % "0.5.4")
