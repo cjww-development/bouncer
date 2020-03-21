@@ -21,7 +21,7 @@ import com.cjwwdev.bouncer.models.HeaderError
 import org.scalatestplus.play.PlaySpec
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.libs.json.Json
-import play.api.mvc.Result
+import play.api.mvc.{RequestHeader, Result}
 import play.api.mvc.Results.{BadRequest, Ok}
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
@@ -42,11 +42,11 @@ class HeaderVerificationFilterSpec extends PlaySpec with GuiceOneAppPerSuite {
     }
 
     override val headersToValidate: Map[String, String => Option[HeaderError]] = Map(
-      "X-AppId-Origin" -> appIdHeaderValidator,
+      "X-AppId-Origin"  -> appIdHeaderValidator,
       "X-Forwarded-For" -> originHeaderValidator
     )
 
-    override val invalidHeaderResponse: Seq[HeaderError] => Future[Result] = errs => {
+    override val invalidHeaderResponse: (RequestHeader, Seq[HeaderError]) => Future[Result] = (_, errs) => {
       val response = Json.obj(
         "status" -> 400,
         "body" -> errs

@@ -25,7 +25,7 @@ trait HeaderVerificationFilter extends Filter {
 
   val headersToValidate: Map[String, String => Option[HeaderError]]
 
-  val invalidHeaderResponse: Seq[HeaderError] => Future[Result]
+  val invalidHeaderResponse: (RequestHeader, Seq[HeaderError]) => Future[Result]
 
   private val nonExistentHeader: String => HeaderError = hk => HeaderError(
     header = hk,
@@ -37,6 +37,6 @@ trait HeaderVerificationFilter extends Filter {
       .flatMap({ case (hk, f) => rh.headers.get(hk).fold[Option[HeaderError]](Some(nonExistentHeader(hk)))(f) })
       .toSeq
 
-    if(validated.isEmpty) f(rh) else invalidHeaderResponse(validated)
+    if(validated.isEmpty) f(rh) else invalidHeaderResponse(rh, validated)
   }
 }
